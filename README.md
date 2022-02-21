@@ -4,7 +4,7 @@ This is the first-and-simple lesson of the Advanced Programming course with the 
 * ii) Learn automated testing with Github Actions
 
 You are required to implement a function that return the string "Game Over!". 
-However, it could be done via the following the instructions:
+However, it could be done via the instructions as follows:
 * Step 1: Fork this repo to your own account
 * Step 2: Clone the forked repo to your local via the command: *git clone https://github.com/[YOUR_USERNAME]/AdvProg_L0-Hello.git*
 * Step 3: Modify the "hello.cpp" file to complete the first objective. 
