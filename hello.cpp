@@ -3,6 +3,6 @@
 
 std::string printGameOver(){
 	// TODO: Return the required string
-	// Test
+	// Test 1
 	return "Game Over!";
 }
