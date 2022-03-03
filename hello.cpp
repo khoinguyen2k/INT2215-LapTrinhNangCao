@@ -3,6 +3,6 @@
 
 std::string printGameOver(){
 	// TODO: Return the required string
-	// Test 1
+	// Fixed Github auth error!
 	return "Game Over!";
 }
