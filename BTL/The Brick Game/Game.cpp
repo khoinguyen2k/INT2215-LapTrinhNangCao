@@ -2,12 +2,12 @@
 #include "SDL_utils.h"
 #include "Timer.h"
 #include <cmath>
-#include <iostream>
-using namespace std;
+
 void Game::loadMedia()
 {
-   bg =loadTexture("images/background.png", renderer);
+   background =loadTexture("images/background.png", renderer);
    tiles =loadTexture("images/tiles.png", renderer);
+   frame =loadTexture("images/frame.png", renderer);
 }
 Game::Game(SDL_Renderer* ren):
    renderer(ren),
@@ -17,11 +17,14 @@ Game::Game(SDL_Renderer* ren):
    score(0)
 {
    loadMedia();
+   initSDL_ttf();
 }
 Game::~Game()
 {
-   SDL_DestroyTexture(bg);
+   SDL_DestroyTexture(background);
    SDL_DestroyTexture(tiles);
+   SDL_DestroyTexture(frame);
+   TTF_Quit();
 }
 
 void Game::listen(SDL_Event event)
@@ -39,11 +42,11 @@ void Game::listen(SDL_Event event)
          default: break;
       }
 }
-void Game::drawBackGround()
+void Game::draw(SDL_Texture* tex)
 {
    SDL_Rect src; src.x =0; src.y =0;
-   SDL_QueryTexture(bg, NULL, NULL, &src.w, &src.h);
-   SDL_RenderCopy(renderer, bg, &src, &src);
+   SDL_QueryTexture(tex, NULL, NULL, &src.w, &src.h);
+   SDL_RenderCopy(renderer, tex, &src, &src);
 }
 void Game::drawPixel(int row, int col, int color)
 {
@@ -118,7 +121,7 @@ void Game::update()
          appendBrickToBoard();
          updateScore(countFullRow());
          removeFullRow();
-
+         SDL_Delay(100);
          Brick newBrick(this, 0, 3);
          brick =newBrick;
          if (!newBrick.canFall())
@@ -126,11 +129,30 @@ void Game::update()
       }
    }
 }
+const char* intTo6Digit(int n)
+{
+   if (n >=99999)
+      return "999999";
+   string ans ="000000";
+   for (int i =5; i >=0; i--)
+   {
+      ans[i] +=n %10;
+      n /=10;
+   }
+   return ans.c_str();
+}
+void Game::drawScore()
+{
+   SDL_Texture* scoreTexture =loadFont("vnarial.ttf", intTo6Digit(score), 48, renderer);
+   SDL_Rect dst ={250, 60, 62, 20};
+   SDL_RenderCopy(renderer, scoreTexture, NULL, &dst);
+}
 void Game::render()
 {
-   drawBackGround();
+   draw(background);
    drawBrick();
    drawBoard();
-   cout <<score <<endl;
+   draw(frame);
+   drawScore();
    SDL_RenderPresent(renderer);
 }

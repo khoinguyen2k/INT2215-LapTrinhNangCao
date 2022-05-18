@@ -1,6 +1,5 @@
 #include "Brick.h"
 #include "Game.h"
-#include <ctime>
 #include <cmath>
 
 vector<Pixel> Brick::createPixels(vector<string> data)

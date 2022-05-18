@@ -1,6 +1,7 @@
 #include <iostream>
 #include <SDL.h>
 #include <SDL_image.h>
+#include <SDL_ttf.h>
 #include "SDL_utils.h"
 using namespace std;
 
@@ -59,4 +60,18 @@ SDL_Texture* loadTexture(string path, SDL_Renderer* renderer)
       SDL_FreeSurface(loadedSurface);
    }
    return newTexture;
+}
+
+// SDL_ttf
+void initSDL_ttf()
+{
+   if (TTF_Init() <0)
+      exit(1);
+}
+SDL_Texture* loadFont(const char* path, const char* text, int fsize, SDL_Renderer* renderer)
+{
+   TTF_Font* font =TTF_OpenFont(path, fsize);
+   SDL_Surface* surface =TTF_RenderText_Blended(font, text, DEFAULT_COLOR);
+   SDL_Texture* texture =SDL_CreateTextureFromSurface(renderer, surface);
+   return texture;
 }

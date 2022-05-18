@@ -13,7 +13,8 @@ const vector<vector<string>> pixelIdData ={
    {"11",
     "11"},
 
-   {"111",
+   {"000",
+    "111",
     "010"},
 
    {"110",

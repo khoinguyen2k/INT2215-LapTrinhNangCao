@@ -1,12 +1,13 @@
 # depslib dependency file v1.0
-1652843976 source:c:\users\administrator\desktop\laptrinhnangcao\btl\the brick game\game.cpp
+1652887195 source:c:\users\administrator\desktop\laptrinhnangcao\btl\the brick game\game.cpp
 	"Game.h"
 	"SDL_utils.h"
 	"Timer.h"
 	<cmath>
 
-1652858487 c:\users\administrator\desktop\laptrinhnangcao\btl\the brick game\game.h
+1652887756 c:\users\administrator\desktop\laptrinhnangcao\btl\the brick game\game.h
 	<SDL.h>
+	<SDL_image.h>
 	<vector>
 	"Brick.h"
 
@@ -17,14 +18,14 @@
 
 1652843612 c:\users\administrator\desktop\laptrinhnangcao\btl\the brick game\pixel.h
 
-1652758092 c:\users\administrator\desktop\laptrinhnangcao\btl\the brick game\sdl_utils.h
+1652887478 c:\users\administrator\desktop\laptrinhnangcao\btl\the brick game\sdl_utils.h
 	<string>
 
-1652153433 c:\users\administrator\desktop\laptrinhnangcao\btl\the brick game\timer.h
+1652859447 c:\users\administrator\desktop\laptrinhnangcao\btl\the brick game\timer.h
 	<ctime>
 	<SDL.h>
 
-1652804903 source:c:\users\administrator\desktop\laptrinhnangcao\btl\the brick game\main.cpp
+1652869142 source:c:\users\administrator\desktop\laptrinhnangcao\btl\the brick game\main.cpp
 	<iostream>
 	<ctime>
 	<SDL.h>
@@ -38,15 +39,15 @@
 	<vector>
 	<cmath>
 
-1652149110 source:c:\users\administrator\desktop\laptrinhnangcao\btl\the brick game\sdl_utils.cpp
+1652887485 source:c:\users\administrator\desktop\laptrinhnangcao\btl\the brick game\sdl_utils.cpp
 	<iostream>
 	<SDL.h>
 	<SDL_image.h>
+	<SDL_ttf.h>
 	"SDL_utils.h"
 
-1652844337 source:c:\users\administrator\desktop\laptrinhnangcao\btl\the brick game\brick.cpp
+1652869208 source:c:\users\administrator\desktop\laptrinhnangcao\btl\the brick game\brick.cpp
 	"Brick.h"
 	"Game.h"
-	<ctime>
 	<cmath>
 
