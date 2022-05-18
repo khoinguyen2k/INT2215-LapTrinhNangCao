@@ -7,24 +7,29 @@ vector<Pixel> Brick::createPixels(vector<string> data)
 {
    vector<Pixel> pixels(4, Pixel(game));
    int count =0;
-   ///PROBLEM HERE!!!
-   for (size_t row =0; row <data[0].size(); row++)
-   for (size_t col =0; col <data.size(); col++)
-      if (data[col][row] !='0')
+   size_t numRow =data.size();
+   size_t numCol =data[0].size();
+   for (size_t r =0; r <numRow; r++)
+   for (size_t c =0; c <numCol; c++)
+      if (data[r][c] !='0')
       {
-         Pixel newPixel(game, id_x +row, id_y +col);
-         pixels[count] =newPixel; count++;
+         Pixel newPixel(game, row +r, col +c);
+         pixels[count] =newPixel;
+         pixels[count].setColor(color); count++;
       }
    return pixels;
 }
-Brick::Brick(Game* _game, int x, int y):
+Brick::Brick(Game* _game, int _row, int _col):
    game(_game),
-   id_x(x),
-   id_y(y),
+   row(_row),
+   col(_col),
    type(rand() %7),
+   color(rand() %8),
    data(pixelIdData[type])
 {
    pixels =createPixels(data);
+   for (int i =0; i <4; i++)
+      pixels[i].setColor(color);
 }
 
 bool Brick::canFall()
@@ -38,7 +43,7 @@ void Brick::fall()
 {
    for (int i =0; i <4; i++)
       pixels[i].fall();
-   id_y++;
+   row++;
 }
 void Brick::moveDown()
 {
@@ -63,7 +68,7 @@ void Brick::moveLeft()
    {
       for (int i =0; i <4; i++)
          pixels[i].moveLeft();
-      id_x--;
+      col--;
    }
 }
 bool Brick::canMoveRight()
@@ -79,30 +84,42 @@ void Brick::moveRight()
    {
       for (int i =0; i <4; i++)
          pixels[i].moveRight();
-      id_x++;
+      col++;
    }
 }
-
-vector<string> transpose(vector<string> data)
+vector<string> rotate90deg(vector<string> data)
 {
-   vector<string> res;
-   size_t row =data.size();
-   size_t col =data[0].size();
-   for (size_t i =0; i <col; i++)
+   size_t numRow =data.size();
+   size_t numCol =data[0].size();
+   vector<string> res(numCol, string(numRow, '0'));
+   for (size_t r =0; r <numRow; r++)
    {
-      string s ="";
-      for (size_t j =0; j <row; j++)
-      {
-         s +=data[j][i];
-      }
-      res.push_back(s);
+      for (size_t c =0; c <numCol; c++)
+         res[c][numRow -r -1] =data[r][c];
+   }
+   return res;
+}
+bool Brick::isPixelsValid(vector<Pixel> pixels)
+{
+   bool res =true;
+   vector<vector<char>> board =game->getBoard();
+   for (size_t i =0; i <pixels.size(); i++)
+   {
+      if (!pixels[i].isInsideBoard())
+         res =false;
+      else
+         if (board[pixels[i].getRow()][pixels[i].getCol()] !='0')
+            res =false;
    }
    return res;
 }
 void Brick::spin()
 {
-   vector<string> newData =transpose(data);
+   vector<string> newData =rotate90deg(data);
    vector<Pixel> newPixels =createPixels(newData);
-   pixels =newPixels;
-   data =newData;
+   if (isPixelsValid(newPixels))
+   {
+      pixels =newPixels;
+      data =newData;
+   }
 }

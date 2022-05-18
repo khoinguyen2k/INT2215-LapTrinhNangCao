@@ -3,8 +3,8 @@
 #include <string>
 using namespace std;
 
-const int SCREEN_WIDTH =480;
-const int SCREEN_HEIGHT =640;
+const int SCREEN_WIDTH =320;
+const int SCREEN_HEIGHT =480;
 const string WINDOW_TITLE ="The Brick Game.";
 void initSDL(SDL_Window* &window, SDL_Renderer* &renderer,
    const int &SCREEN_WIDTH, const int &SCREEN_HEIGHT, const string &WINDOW_TITLE);

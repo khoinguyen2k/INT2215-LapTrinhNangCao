@@ -8,23 +8,26 @@ using namespace std;
 class Game{
    SDL_Renderer* renderer;
    bool running;
-   vector<vector<char>> board;
+   vector<vector<char>> board;///save pixel 's color
    Brick brick;
-
+   int score;
    SDL_Texture* bg, *tiles;
 public:
    Game(SDL_Renderer* ren);
+   ~Game();
    void loadMedia();
    bool isRunning() {return running ==true;}
    vector<vector<char>> getBoard() {return board;}
    void drawBackGround();
-   void drawPixel(int id_x, int id_y);
+   void drawPixel(int row, int col, int color);
    void drawBrick();
    void drawBoard();
    void listen(SDL_Event event);
    void appendBrickToBoard();
    bool isRowFull(int row);
-   void clearAllFullRow();
+   int countFullRow();
+   void removeFullRow();
+   void updateScore(int fullRow);
    void update();
    void render();
 };

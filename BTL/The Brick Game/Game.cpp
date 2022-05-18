@@ -2,7 +2,8 @@
 #include "SDL_utils.h"
 #include "Timer.h"
 #include <cmath>
-
+#include <iostream>
+using namespace std;
 void Game::loadMedia()
 {
    bg =loadTexture("images/background.png", renderer);
@@ -11,10 +12,16 @@ void Game::loadMedia()
 Game::Game(SDL_Renderer* ren):
    renderer(ren),
    running(true),
-   board(10, vector<char> (20, '0')),
-   brick(this, 3, 0)
+   board(20, vector<char> (10, '0')),
+   brick(this, 0, 3),
+   score(0)
 {
    loadMedia();
+}
+Game::~Game()
+{
+   SDL_DestroyTexture(bg);
+   SDL_DestroyTexture(tiles);
 }
 
 void Game::listen(SDL_Event event)
@@ -24,10 +31,10 @@ void Game::listen(SDL_Event event)
       switch (event.key.keysym.sym)
       {
          case SDLK_q: running =false; break;
+         case SDLK_UP: brick.spin(); break;
          case SDLK_LEFT: brick.moveLeft(); break;
          case SDLK_RIGHT: brick.moveRight(); break;
          case SDLK_SPACE: brick.moveToBottom(); break;
-         case SDLK_UP: brick.spin(); break;
          case SDLK_DOWN: brick.moveDown(); break;
          default: break;
       }
@@ -38,38 +45,66 @@ void Game::drawBackGround()
    SDL_QueryTexture(bg, NULL, NULL, &src.w, &src.h);
    SDL_RenderCopy(renderer, bg, &src, &src);
 }
-void Game::drawPixel(int id_x, int id_y)
+void Game::drawPixel(int row, int col, int color)
 {
-   SDL_Rect src ={0, 0, 18, 18};
-   SDL_Rect dst ={28 +18 *id_x, 31 +18 *id_y, 18, 18};///corner ={28, 31};
+   SDL_Rect src ={18 *color, 0, 18, 18};
+   ///col in Ox, row in Oy
+   SDL_Rect dst ={28 +18 *col, 31 +18 *row, 18, 18};///corner ={28, 31};
    SDL_RenderCopy(renderer, tiles, &src, &dst);
 }
 void Game::drawBrick()
 {
    vector<Pixel> pixels =brick.getPixels();
    for (int i =0; i <4; i++)
-      drawPixel(pixels[i].getId_x(), pixels[i].getId_y());
+      drawPixel(pixels[i].getRow(), pixels[i].getCol(), pixels[i].getColor());
 }
 void Game::drawBoard()
 {
-   for (int i =0; i <10; i++)
-   for (int j =0; j <20; j++)
-      if (board[i][j] !='0') drawPixel(i, j);
+   for (int row =0; row <20; row++)
+   for (int col =0; col <10; col++)
+      if (board[row][col] !='0') drawPixel(row, col, (int)(board[row][col] -'1'));
 }
 void Game::appendBrickToBoard()
 {
    vector<Pixel> pixels =brick.getPixels();
    for (int i =0; i <4; i++)
-      board[pixels[i].getId_x()][pixels[i].getId_y()] ='1';
+      board[pixels[i].getRow()][pixels[i].getCol()] =(char)('1' +pixels[i].getColor());
 }
 bool Game::isRowFull(int row)
 {
-   bool res =true;
+   bool ans =true;
+   for (size_t col =0; col <10; col++)
+      if (board[row][col] =='0') ans =false;
+   return ans;
+}
+int Game::countFullRow()
+{
+   int res =0;
+   for (size_t pos =0; pos <20; pos++)
+      if (isRowFull(pos)) res++;
    return res;
 }
-void Game::clearAllFullRow()
+void Game::removeFullRow()
 {
-
+   for (size_t pos =0; pos <20; pos++)
+   if (isRowFull(pos))
+   {
+      for (size_t row =pos; row >=1; row--)
+         board[row] =board[row -1];
+      for (size_t col =0; col <10; col++)
+         board[0][col] ='0';
+   }
+}
+void Game::updateScore(int fullRow)
+{
+   switch (fullRow)
+   {
+      case 1: score +=100; break;
+      case 2: score +=200; break;
+      case 3: score +=400; break;
+      case 4: score +=1200; break;
+      default: break;
+   }
 }
 void Game::update()
 {
@@ -81,10 +116,13 @@ void Game::update()
       else
       {
          appendBrickToBoard();
-         Brick newBrick(this, 4, 0);
+         updateScore(countFullRow());
+         removeFullRow();
+
+         Brick newBrick(this, 0, 3);
+         brick =newBrick;
          if (!newBrick.canFall())
             running =false;
-         else brick =newBrick;
       }
    }
 }
@@ -93,5 +131,6 @@ void Game::render()
    drawBackGround();
    drawBrick();
    drawBoard();
+   cout <<score <<endl;
    SDL_RenderPresent(renderer);
 }

@@ -4,11 +4,15 @@
 class Game;
 class Pixel{
    Game *game;
-   int id_x, id_y;
+   int row, col;
+   int color;
 public:
-   Pixel(Game* _game, int x =0, int y =0);
-   int getId_x() {return id_x;}
-   int getId_y() {return id_y;}
+   Pixel(Game* _game, int _row =0, int _col =0);
+   int getRow() {return row;}
+   int getCol() {return col;}
+   int getColor() {return color;}
+   void setColor(int _c) {color =_c;}
+   bool isInsideBoard();
    bool canFall();
    void fall();
    bool canMoveLeft();

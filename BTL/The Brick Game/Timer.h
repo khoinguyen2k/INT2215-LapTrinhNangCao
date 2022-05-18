@@ -3,7 +3,7 @@
 
 #include <ctime>
 #include <SDL.h>
-const int STEP_DELAY =300;
+const int STEP_DELAY =200;
 class Timer{
    clock_t startTime;
    clock_t endTime;

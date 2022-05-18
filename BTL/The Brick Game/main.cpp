@@ -5,7 +5,6 @@
 #include "SDL_utils.h"
 #include "Game.h"
 using namespace std;
-
 const int START_CORNER[] ={28, 31};
 const int PIXEL_SIZE =18;
 const int NUM_ROW =20;
@@ -28,7 +27,7 @@ int main(int argc, char* agrv[])
       }
       game.update();
       game.render();
-      SDL_Delay(2);
+      SDL_Delay(1);
    }
    while (game.isRunning());
    game.render();
