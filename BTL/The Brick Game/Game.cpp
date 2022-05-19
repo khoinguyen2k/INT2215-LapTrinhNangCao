@@ -2,6 +2,7 @@
 #include "SDL_utils.h"
 #include "Timer.h"
 #include <cmath>
+#include <SDL_ttf.h>
 
 void Game::loadMedia()
 {
