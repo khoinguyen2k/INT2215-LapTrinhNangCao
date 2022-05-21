@@ -2,6 +2,7 @@
 #include "SDL_utils.h"
 #include "Timer.h"
 #include <cmath>
+#include <SDL.h>
 #include <SDL_ttf.h>
 
 void Game::loadMedia()
@@ -148,7 +149,7 @@ void Game::drawScore()
    SDL_Rect dst ={250, 60, 62, 20};
    SDL_RenderCopy(renderer, scoreTexture, NULL, &dst);
 }
-void Game::render()
+void Game::renderClassic()
 {
    draw(background);
    drawBrick();
@@ -156,4 +157,43 @@ void Game::render()
    draw(frame);
    drawScore();
    SDL_RenderPresent(renderer);
+}
+void Game::renderInvis()
+{
+   draw(background);
+   drawBrick();
+   draw(frame);
+   drawScore();
+   SDL_RenderPresent(renderer);
+}
+
+void Game::runClassic()
+{
+   do
+   {
+      SDL_Event event;
+      while (SDL_PollEvent(&event))
+      {
+         listen(event);
+      }
+      update();
+      renderClassic();
+      SDL_Delay(1);
+   }
+   while (isRunning());
+}
+void Game::runInvis()
+{
+   do
+   {
+      SDL_Event event;
+      while (SDL_PollEvent(&event))
+      {
+         listen(event);
+      }
+      update();
+      renderInvis();
+      SDL_Delay(1);
+   }
+   while (isRunning());
 }

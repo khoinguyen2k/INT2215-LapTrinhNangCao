@@ -1,11 +1,13 @@
 # depslib dependency file v1.0
-1652887195 source:c:\users\administrator\desktop\laptrinhnangcao\btl\the brick game\game.cpp
+1653148514 source:c:\users\administrator\desktop\laptrinhnangcao\btl\the brick game\game.cpp
 	"Game.h"
 	"SDL_utils.h"
 	"Timer.h"
 	<cmath>
+	<SDL.h>
+	<SDL_ttf.h>
 
-1652887756 c:\users\administrator\desktop\laptrinhnangcao\btl\the brick game\game.h
+1653148503 c:\users\administrator\desktop\laptrinhnangcao\btl\the brick game\game.h
 	<SDL.h>
 	<SDL_image.h>
 	<vector>
@@ -25,13 +27,14 @@
 	<ctime>
 	<SDL.h>
 
-1652869142 source:c:\users\administrator\desktop\laptrinhnangcao\btl\the brick game\main.cpp
+1653149240 source:c:\users\administrator\desktop\laptrinhnangcao\btl\the brick game\main.cpp
 	<iostream>
 	<ctime>
 	<SDL.h>
 	<SDL_image.h>
 	"SDL_utils.h"
 	"Game.h"
+	"Menu.h"
 
 1652843630 source:c:\users\administrator\desktop\laptrinhnangcao\btl\the brick game\pixel.cpp
 	"Game.h"
@@ -50,4 +53,13 @@
 	"Brick.h"
 	"Game.h"
 	<cmath>
+
+1653144229 source:c:\users\administrator\desktop\laptrinhnangcao\btl\the brick game\menu.cpp
+	"Menu.h"
+	<vector>
+	"SDL_utils.h"
+
+1653145211 c:\users\administrator\desktop\laptrinhnangcao\btl\the brick game\menu.h
+	<vector>
+	<SDL.h>
 

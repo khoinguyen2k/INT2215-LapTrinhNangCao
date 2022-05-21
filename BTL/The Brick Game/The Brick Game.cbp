@@ -23,6 +23,8 @@
 		<Unit filename="Brick.h" />
 		<Unit filename="Game.cpp" />
 		<Unit filename="Game.h" />
+		<Unit filename="Menu.cpp" />
+		<Unit filename="Menu.h" />
 		<Unit filename="Pixel.cpp" />
 		<Unit filename="Pixel.h" />
 		<Unit filename="SDL_utils.cpp" />

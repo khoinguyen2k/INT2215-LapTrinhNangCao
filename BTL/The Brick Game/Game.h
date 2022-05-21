@@ -31,6 +31,10 @@ public:
    void removeFullRow();
    void updateScore(int fullRow);
    void update();
-   void render();
+   void renderClassic();
+   void renderInvis();
+
+   void runClassic();
+   void runInvis();
 };
 #endif // GAME_H
