@@ -11,22 +11,24 @@ const int PIXEL_SIZE =18;
 const int NUM_ROW =20;
 const int NUM_COLUMN =10;
 
-void drawStartMenu(SDL_Renderer* renderer);
-void drawTypeMenu(SDL_Renderer* renderer);
 int main(int argc, char* agrv[])
 {
    srand(time(0));
    SDL_Window* window;
    SDL_Renderer* renderer;
    initSDL(window, renderer, SCREEN_WIDTH, SCREEN_HEIGHT, WINDOW_TITLE);
+   initSDL_ttf();
+   initSDL_mixer();
 
    Menu startMenu({startButton});
-   Menu typeMenu({firstTypeButton, secondTypeButton});
-   Menu menu({startButton});
+   Menu typeMenu({typeA_button, typeB_button});
+   startMenu.setTexture(loadTexture("images/start menu.png", renderer));
+   typeMenu.setTexture(loadTexture("images/type menu.png", renderer));
+   Menu menu =startMenu;
    bool menuIsRunning =true;
 
    Game game(renderer);
-   drawStartMenu(renderer);
+   menu.draw(renderer);
    SDL_Event menuEvent;
    while (menuIsRunning)
    {
@@ -39,44 +41,22 @@ int main(int argc, char* agrv[])
             if (menu.getChoice() ==startButton)
             {
                menu =typeMenu;
-               drawTypeMenu(renderer);
+               menu.draw(renderer);
             }
-            else if (menu.getChoice() ==firstTypeButton)
-            {
+            else if (menu.getChoice() ==typeA_button)
                game.runClassic();
-            }
-            else if (menu.getChoice() ==secondTypeButton)
-            {
+            else if (menu.getChoice() ==typeB_button)
                game.runInvis();
-            }
 
          }
       }
-      SDL_Delay(2);
+      SDL_Delay(1);
       menuIsRunning =game.isRunning();
    }
-   game.renderClassic();
+   game.renderEndGame();
 
    waitUntilKeyPressed();
    quitSDL(window, renderer);
    return 0;
 }
 
-void drawStartMenu(SDL_Renderer* renderer)
-{
-   SDL_Texture* tex =loadTexture("images/start menu.png", renderer);
-   SDL_Rect src; src.x =0; src.y =0;
-   SDL_QueryTexture(tex, NULL, NULL, &src.w, &src.h);
-   SDL_RenderCopy(renderer, tex, &src, &src);
-   SDL_RenderPresent(renderer);
-   //SDL_DestroyTexture(tex);
-}
-void drawTypeMenu(SDL_Renderer* renderer)
-{
-   SDL_Texture* tex =loadTexture("images/type menu.png", renderer);
-   SDL_Rect src; src.x =0; src.y =0;
-   SDL_QueryTexture(tex, NULL, NULL, &src.w, &src.h);
-   SDL_RenderCopy(renderer, tex, &src, &src);
-   SDL_RenderPresent(renderer);
-   //SDL_DestroyTexture(tex);
-}

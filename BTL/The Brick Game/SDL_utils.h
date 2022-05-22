@@ -18,4 +18,6 @@ SDL_Texture* loadTexture(string path, SDL_Renderer* renderer);
 //SDL_ttf
 void initSDL_ttf();
 SDL_Texture* loadFont(const char* path, const char* text, int fsize, SDL_Renderer* renderer);
+//SDL_mixer
+void initSDL_mixer();
 #endif // SDL_utils.h

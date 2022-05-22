@@ -1,15 +1,17 @@
 # depslib dependency file v1.0
-1653148514 source:c:\users\administrator\desktop\laptrinhnangcao\btl\the brick game\game.cpp
+1653213549 source:c:\users\administrator\desktop\laptrinhnangcao\btl\the brick game\game.cpp
 	"Game.h"
 	"SDL_utils.h"
 	"Timer.h"
 	<cmath>
 	<SDL.h>
 	<SDL_ttf.h>
+	<SDL_mixer.h>
 
-1653148503 c:\users\administrator\desktop\laptrinhnangcao\btl\the brick game\game.h
+1653213102 c:\users\administrator\desktop\laptrinhnangcao\btl\the brick game\game.h
 	<SDL.h>
 	<SDL_image.h>
+	<SDL_mixer.h>
 	<vector>
 	"Brick.h"
 
@@ -20,14 +22,14 @@
 
 1652843612 c:\users\administrator\desktop\laptrinhnangcao\btl\the brick game\pixel.h
 
-1652887478 c:\users\administrator\desktop\laptrinhnangcao\btl\the brick game\sdl_utils.h
+1653210415 c:\users\administrator\desktop\laptrinhnangcao\btl\the brick game\sdl_utils.h
 	<string>
 
 1652859447 c:\users\administrator\desktop\laptrinhnangcao\btl\the brick game\timer.h
 	<ctime>
 	<SDL.h>
 
-1653149240 source:c:\users\administrator\desktop\laptrinhnangcao\btl\the brick game\main.cpp
+1653213951 source:c:\users\administrator\desktop\laptrinhnangcao\btl\the brick game\main.cpp
 	<iostream>
 	<ctime>
 	<SDL.h>
@@ -42,11 +44,12 @@
 	<vector>
 	<cmath>
 
-1652887485 source:c:\users\administrator\desktop\laptrinhnangcao\btl\the brick game\sdl_utils.cpp
+1653210539 source:c:\users\administrator\desktop\laptrinhnangcao\btl\the brick game\sdl_utils.cpp
 	<iostream>
 	<SDL.h>
 	<SDL_image.h>
 	<SDL_ttf.h>
+	<SDL_mixer.h>
 	"SDL_utils.h"
 
 1652869208 source:c:\users\administrator\desktop\laptrinhnangcao\btl\the brick game\brick.cpp
@@ -54,12 +57,13 @@
 	"Game.h"
 	<cmath>
 
-1653144229 source:c:\users\administrator\desktop\laptrinhnangcao\btl\the brick game\menu.cpp
+1653214014 source:c:\users\administrator\desktop\laptrinhnangcao\btl\the brick game\menu.cpp
 	"Menu.h"
 	<vector>
 	"SDL_utils.h"
 
-1653145211 c:\users\administrator\desktop\laptrinhnangcao\btl\the brick game\menu.h
+1653214272 c:\users\administrator\desktop\laptrinhnangcao\btl\the brick game\menu.h
 	<vector>
 	<SDL.h>
+	<SDL_image.h>
 

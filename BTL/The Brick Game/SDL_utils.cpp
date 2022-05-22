@@ -2,6 +2,7 @@
 #include <SDL.h>
 #include <SDL_image.h>
 #include <SDL_ttf.h>
+#include <SDL_mixer.h>
 #include "SDL_utils.h"
 using namespace std;
 
@@ -66,7 +67,10 @@ SDL_Texture* loadTexture(string path, SDL_Renderer* renderer)
 void initSDL_ttf()
 {
    if (TTF_Init() <0)
+   {
+      cout <<"TTF_Init Error: " <<TTF_GetError() <<endl;
       exit(1);
+   }
 }
 SDL_Texture* loadFont(const char* path, const char* text, int fsize, SDL_Renderer* renderer)
 {
@@ -74,4 +78,14 @@ SDL_Texture* loadFont(const char* path, const char* text, int fsize, SDL_Rendere
    SDL_Surface* surface =TTF_RenderText_Blended(font, text, DEFAULT_COLOR);
    SDL_Texture* texture =SDL_CreateTextureFromSurface(renderer, surface);
    return texture;
+}
+
+// SDL_mixer
+void initSDL_mixer()
+{
+   if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) <0)
+   {
+      cout <<"Mixer_Init Error: " <<Mix_GetError() <<endl;
+      exit(1);
+   }
 }

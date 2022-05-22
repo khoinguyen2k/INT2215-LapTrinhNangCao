@@ -4,12 +4,32 @@
 #include <cmath>
 #include <SDL.h>
 #include <SDL_ttf.h>
+#include <SDL_mixer.h>
+using namespace std;
 
+const char* intTo6Digit(int n)
+{
+   if (n >=99999)
+      return "999999";
+   string ans ="000000";
+   for (int i =5; i >=0; i--)
+   {
+      ans[i] +=n %10;
+      n /=10;
+   }
+   return ans.c_str();
+}
+const string quitGuide ="Press any key to exit";
 void Game::loadMedia()
 {
    background =loadTexture("images/background.png", renderer);
    tiles =loadTexture("images/tiles.png", renderer);
    frame =loadTexture("images/frame.png", renderer);
+   endTexture =loadTexture("images/game over.png", renderer);
+   quitTexture =loadFont("Vn Truyen Tranh Biqit.ttf", quitGuide.c_str(), 72, renderer);
+   scoreTexture =loadFont("Vn Truyen Tranh Biqit.ttf", intTo6Digit(score), 72, renderer);
+   dropSound =Mix_LoadWAV("sounds/drop-sound.wav");
+   boomSound =Mix_LoadWAV("sounds/boom-sound.wav");
 }
 Game::Game(SDL_Renderer* ren):
    renderer(ren),
@@ -19,14 +39,19 @@ Game::Game(SDL_Renderer* ren):
    score(0)
 {
    loadMedia();
-   initSDL_ttf();
 }
 Game::~Game()
 {
    SDL_DestroyTexture(background);
    SDL_DestroyTexture(tiles);
    SDL_DestroyTexture(frame);
+   SDL_DestroyTexture(endTexture);
+   SDL_DestroyTexture(scoreTexture);
+   SDL_DestroyTexture(quitTexture);
+   Mix_FreeChunk(dropSound);
+   Mix_FreeChunk(boomSound);
    TTF_Quit();
+   Mix_Quit();
 }
 
 void Game::listen(SDL_Event event)
@@ -35,7 +60,7 @@ void Game::listen(SDL_Event event)
    if (event.type ==SDL_KEYDOWN)
       switch (event.key.keysym.sym)
       {
-         case SDLK_q: running =false; break;
+         //case SDLK_q: running =false; break;
          case SDLK_UP: brick.spin(); break;
          case SDLK_LEFT: brick.moveLeft(); break;
          case SDLK_RIGHT: brick.moveRight(); break;
@@ -44,11 +69,12 @@ void Game::listen(SDL_Event event)
          default: break;
       }
 }
-void Game::draw(SDL_Texture* tex)
+void Game::draw(SDL_Texture* tex, int x, int y)
 {
    SDL_Rect src; src.x =0; src.y =0;
    SDL_QueryTexture(tex, NULL, NULL, &src.w, &src.h);
-   SDL_RenderCopy(renderer, tex, &src, &src);
+   SDL_Rect dst ={x, y, src.w, src.h};
+   SDL_RenderCopy(renderer, tex, &src, &dst);
 }
 void Game::drawPixel(int row, int col, int color)
 {
@@ -111,6 +137,21 @@ void Game::updateScore(int fullRow)
       default: break;
    }
 }
+void Game::playSound(int fullRow)
+{
+   switch (fullRow)
+   {
+      case 1: case 2: case 3:
+         Mix_PlayChannel(-1, dropSound, 0);
+         SDL_Delay(100);
+      break;
+      case 4:
+         Mix_PlayChannel(-1, boomSound, 0);
+         SDL_Delay(400);
+      break;
+      default: break;
+   }
+}
 void Game::update()
 {
    static Timer timer;
@@ -122,8 +163,8 @@ void Game::update()
       {
          appendBrickToBoard();
          updateScore(countFullRow());
+         playSound(countFullRow());
          removeFullRow();
-         SDL_Delay(100);
          Brick newBrick(this, 0, 3);
          brick =newBrick;
          if (!newBrick.canFall())
@@ -131,24 +172,25 @@ void Game::update()
       }
    }
 }
-const char* intTo6Digit(int n)
-{
-   if (n >=99999)
-      return "999999";
-   string ans ="000000";
-   for (int i =5; i >=0; i--)
-   {
-      ans[i] +=n %10;
-      n /=10;
-   }
-   return ans.c_str();
-}
 void Game::drawScore()
 {
-   SDL_Texture* scoreTexture =loadFont("vnarial.ttf", intTo6Digit(score), 48, renderer);
-   SDL_Rect dst ={250, 60, 62, 20};
+   scoreTexture =loadFont("Vn Truyen Tranh Biqit.ttf", intTo6Digit(score), 72, renderer);
+   SDL_Rect dst ={250, 52, 62, 30};
    SDL_RenderCopy(renderer, scoreTexture, NULL, &dst);
 }
+void Game::drawEndScreen()
+{
+   draw(endTexture, 78, 186);
+   //final score
+   scoreTexture =loadFont("Vn Truyen Tranh Biqit.ttf", intTo6Digit(score), 72, renderer);
+   SDL_Rect dst ={130, 247, 62, 30};
+   SDL_RenderCopy(renderer, scoreTexture, NULL, &dst);
+   //quit guide
+   SDL_Rect _dst ={16, 415, 284, 40};
+   SDL_RenderCopy(renderer, quitTexture, NULL, &_dst);
+
+}
+
 void Game::renderClassic()
 {
    draw(background);
@@ -196,4 +238,14 @@ void Game::runInvis()
       SDL_Delay(1);
    }
    while (isRunning());
+}
+void Game::renderEndGame()
+{
+   draw(background);
+   drawBrick();
+   drawBoard();
+   draw(frame);
+
+   drawEndScreen();
+   SDL_RenderPresent(renderer);
 }

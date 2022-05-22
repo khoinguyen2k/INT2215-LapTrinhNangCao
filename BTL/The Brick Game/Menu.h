@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <SDL.h>
+#include <SDL_image.h>
 using namespace std;
 struct Point{
    int x, y;
@@ -29,14 +30,18 @@ struct Button{
 };
 
 const Button startButton(78, 244, 241, 293);
-const Button firstTypeButton(35, 177, 232, 215);
-const Button secondTypeButton(35, 276, 241, 317);
+const Button typeA_button(35, 177, 232, 215);
+const Button typeB_button(35, 276, 241, 317);
 const Button nullButton;
 class Menu{
    vector<Button> buttons;
    Button choiceButton;
+   SDL_Texture* texture;
 public:
    Menu(vector<Button> _buttons);
+   ~Menu();
+   void setTexture(SDL_Texture* tex){texture =tex;}
+   void draw(SDL_Renderer* renderer);
    Button getChoice(){return choiceButton;}
    void addButton(int a, int b, int c, int d);
    void addButton(Button button);
